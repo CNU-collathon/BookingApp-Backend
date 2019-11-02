@@ -1,0 +1,20 @@
+{
+  "name": "bookingapp-backend",
+  "version": "1.0.0",
+  "description": "develop_version",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "mongoose": "^5.7.7",
+    "morgan": "^1.9.1",
+    "pug": "^2.0.4"
+  }
+}
