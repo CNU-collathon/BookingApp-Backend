@@ -2,29 +2,24 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const workPlaceSchema = new Schema({
+const menuSchema = new Schema({
 
-  SelfEmployedID: {
+  WorkPlaceID: {
     type: String,
     required: true,
   },
 
-  WorkPlaceID: {
+  Name: {
     type: String,
     required: true,
     unique: true,
   },
 
-  Address: {
-    type: String,
-    required: false,
-  },
-
-  WorkPlaceInfo: {
+  Desc: {
     type: String,
     required: false,
   },
 
 });
 
-module.exports = mongoose.model('WorkPlace', workPlaceSchema);
+module.exports = mongoose.model('Menu', menuSchema);
