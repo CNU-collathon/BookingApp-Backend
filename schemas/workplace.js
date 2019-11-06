@@ -2,29 +2,29 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const selfEmployedSchema = new Schema({
+const workPlaceSchema = new Schema({
 
-  ID: {
+  SelfEmployedID: {
+    type: String,
+    required: true,
+  },
+
+  WorkPlaceID: {
     type: String,
     required: true,
     unique: true,
   },
-  
-  PW: {
-    type: String,
-    required: true,
-  },
 
-  Email: {
+  Address: {
     type: String,
     required: false,
   },
 
-  PhoneNumber: {
+  WorkPlaceInfo: {
     type: String,
     required: false,
-  },
+  }
 
 });
 
-module.exports = mongoose.model('SelfEmployed', selfEmployedSchema);
+module.exports = mongoose.model('WorkPlace', workPlaceSchema);
