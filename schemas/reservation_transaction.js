@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const reservationTransaction = new Schema({
 
+  // short-hash
   ID: {
     type: String,
     required: true,
@@ -25,6 +26,23 @@ const reservationTransaction = new Schema({
     type: Date,
     required: true,
   },
+
+  Personnel: {
+    type: int,
+    required: true
+  },
+
+  Detail : {
+    UserName: {
+      type: String,
+      required: true
+    },
+
+    PhoneNum: {
+      type: String,
+      required: true
+    }
+  }
 
 });
 
