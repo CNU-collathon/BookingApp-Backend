@@ -44,4 +44,25 @@ router.post('/reservation', (req, res, next) => {
   })
 })
 
+//reservation modify
+router.put('/reservation/:reservationID', (req, res, next) => {
+  Reservation.update({ ID: req.params.reservationID }, {$set: req.body}, (err, output) => {
+    if(err) res.status(500).json({error: "database failure"});
+    console.log(output);
+    if(!output.n) return res.status(404).json({error: "Reservation not found"});
+    res.json({ messgae: "Reservation Updated"});
+  })
+})
+
+// cancel reservation
+router.delete('/reservation/cancel/:reservationID', (req, res, net) => {
+  Reservation.deleteOne({ ID: req.params.reservationID }, (err) => {
+    if(err) res.status(500).json({error: "database failure"});
+
+    res.json({ message: "Reservation Canceled"})
+
+    res.status(204).end();
+  })
+})
+
 module.exports = router;
