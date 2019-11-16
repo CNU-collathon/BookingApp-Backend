@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const db = require("./schemas")
 
-var categoryRouter = require('./routes/booking_app_routes/category_selector');
+var categoryRouter = require('./routes/booking_app_routes');
 // var usersRouter = require('./routes/users');
 
 var app = express();
@@ -12,6 +13,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+db();
 
 app.use(logger('dev'));
 app.use(express.json());
