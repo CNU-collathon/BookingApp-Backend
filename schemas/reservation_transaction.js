@@ -28,7 +28,7 @@ const reservationTransaction = new Schema({
   },
 
   Personnel: {
-    type: int,
+    type: Number,
     required: true
   },
 

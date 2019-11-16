@@ -5,8 +5,8 @@ module.exports = () => {
     if (process.env.NODE_ENV !== 'production') {
       mongoose.set('debug', true);
     }
-    mongoose.connect('', {
-      dbName: 'nodejs',
+    mongoose.connect('mongodb://localhost:27017', {
+      dbName: 'BookingApp',
     }, (error) => {
       if (error) {
         console.log('몽고디비 연결 에러', error);
@@ -24,6 +24,8 @@ module.exports = () => {
     connect();
   });
 
-  require('./user');
-  require('./comment');
+  require('./menu');
+  require('./reservation_transaction');
+  require("./self_employed");
+  require("./workplace")
 };
