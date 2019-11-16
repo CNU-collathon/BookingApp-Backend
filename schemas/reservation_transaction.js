@@ -44,6 +44,6 @@ const reservationTransaction = new Schema({
     }
   }
 
-});
+}, {collection: "ReservationTransaction"});
 
 module.exports = mongoose.model('ReservationTransaction', reservationTransaction);
