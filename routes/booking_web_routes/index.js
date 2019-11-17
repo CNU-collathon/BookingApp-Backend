@@ -4,6 +4,7 @@ const shortHash = require("short-hash");
 const SelfEmployed = require("../../schemas/self_employed");
 const WorkPlace = require("../../schemas/workplace");
 const Reservation = require("../../schemas/reservation_transaction");
+const Menu = require("../../schemas/menu");
 
 // SelfEmployed ID duplication check
 router.get("/selfemployed/:id", (req, res, next) => {
@@ -160,6 +161,51 @@ router.put("/workplace/update/:workplaceID", (req, res, next) => {
     console.log(output);
     if(!output.n) return res.status(404).json({error: "WorkPlace not found"});
     res.json({ messgae: "WorkPlace Updated"});
+  })
+})
+
+// register menu
+router.post("/menu", (req, res, next) => {
+  let menu = new Menu();
+  menu.WorkPlaceID = req.body.WorkPlaceID;
+  menu.Name = req.body.Name;
+  menu.Desc = req.body.Desc;
+  menu.save((err) => {
+    if(err) {
+      console.log(err);
+      res.json({result: 0});
+      return;
+    }
+
+    res.json({
+      result: 1
+    });
+  })
+})
+
+// get menu
+router.get("/menu/:workplaceID", (req, res, next) => {
+  Menu.find({ WorkPlaceID: req.params.workplaceID }, (err, menu) => {
+    if(err) return res.status(500).send({error: 'database failure'});
+
+      if(menu.length === 0) {
+        res.json({
+          result: 0
+        })
+      }
+      else {
+        res.json(menu)
+      }
+  })
+})
+
+// modify menu
+router.put("/menu/update/:workplaceID/:menuName", (req, res, next) => {
+  Menu.update({ WorkPlaceID: req.params.workplaceID, Name: req.params.menuName }, { $set: req.body }, (err, output) => {
+    if(err) res.status(500).json({error: "database failure"});
+    console.log(output);
+    if(!output.n) return res.status(404).json({error: "Menu not found"});
+    res.json({ messgae: "Menu Updated"});
   })
 })
 
