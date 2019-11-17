@@ -28,7 +28,7 @@ const reservationTransaction = new Schema({
   },
 
   Personnel: {
-    type: int,
+    type: Number,
     required: true
   },
 
@@ -44,6 +44,6 @@ const reservationTransaction = new Schema({
     }
   }
 
-});
+}, {collection: "ReservationTransaction"});
 
 module.exports = mongoose.model('ReservationTransaction', reservationTransaction);

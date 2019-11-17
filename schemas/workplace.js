@@ -25,6 +25,16 @@ const workPlaceSchema = new Schema({
     required: false,
   },
 
-});
+  Name: {
+    type: String,
+    required: true
+  },
+
+  Category: {
+    type: String,
+    required: true
+  }
+
+}, { collection: "WorkPlace"});
 
 module.exports = mongoose.model('WorkPlace', workPlaceSchema);
