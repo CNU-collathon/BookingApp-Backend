@@ -30,7 +30,19 @@ router.get('/reservation/lookup/:reservationID', (req, res, next) => {
       })
     }
     else {
-      res.json(reservation);
+      WorkPlace.findOne({ WorkPlaceID: reservation.WorkPlaceID }, (err, workplace) => {
+        if(workplace === null) {
+          res.json({
+            result: 0
+          })
+        }
+        else {
+          let result = JSON.parse(JSON.stringify(reservation));
+          result.Address = workplace.Address;
+          result.WorkPlaceInfo = workplace.WorkPlaceInfo;
+          res.json(result);
+        }
+      })
     }
   })
 })
