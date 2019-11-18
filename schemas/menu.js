@@ -20,6 +20,11 @@ const menuSchema = new Schema({
     required: false,
   },
 
+  Price: {
+    type: Number,
+    required: true
+  }
+
 }, {collection: "Menu"});
 
 module.exports = mongoose.model('Menu', menuSchema);

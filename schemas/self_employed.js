@@ -25,6 +25,6 @@ const selfEmployedSchema = new Schema({
     required: false,
   },
 
-}, {collection: "SelfEmploeyd"});
+}, {collection: "SelfEmployed"});
 
 module.exports = mongoose.model('SelfEmployed', selfEmployedSchema);

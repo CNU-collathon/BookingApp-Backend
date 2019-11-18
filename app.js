@@ -1,18 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
 const db = require("./schemas")
 
-var appRouter = require('./routes/booking_app_routes');
-var webRouter = require('./routes/booking_web_routes');
+const appRouter = require('./routes/booking_app_routes');
+const webRouter = require('./routes/booking_web_routes');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('etag', false);
+app.use(cors());
 db();
 
 app.use(logger('dev'));

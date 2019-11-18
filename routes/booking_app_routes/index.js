@@ -20,15 +20,31 @@ router.get('/store/:store_id', (req, res, next) => {
   })
 });
 
+// reservation lookup
+router.get('/reservation/lookup/:reservationID', (req, res, next) => {
+  Reservation.findOne({ ID: req.params.reservationID }, (err, reservation) => {
+    if(err) return res.status(500).send({error: 'database failure'});
+    if(reservation === null) {
+      res.json({
+        result: 0
+      })
+    }
+    else {
+      res.json(reservation);
+    }
+  })
+})
+
 //reservation transaction
 router.post('/reservation', (req, res, next) => {
   let reservation = new Reservation();
   reservation.WorkPlaceID = req.body.WorkPlaceID;
   reservation.MenuName = req.body.MenuName;
-  reservation.ReservedDateTime = new Date();
-  reservation.Personnel = req.body.Personnel;
+  reservation.ReservedDateTime = new Date(req.body.ReservedDateTime);
+  reservation.EndDateTime = new Date(req.body.EndDateTime);
   reservation.Detail = req.body.Detail;
-  reservation.ID = shortHash(reservation.Detail.PhoneNum + req.body.ReservedDateTime);
+  reservation.Menu = req.body.Menus;
+  reservation.ID = shortHash(reservation.Detail.PhoneNum + req.body.DateTime);
 
   reservation.save((err) => {
     if(err) {

@@ -170,6 +170,7 @@ router.post("/menu", (req, res, next) => {
   menu.WorkPlaceID = req.body.WorkPlaceID;
   menu.Name = req.body.Name;
   menu.Desc = req.body.Desc;
+  menu.Price = req.body.Price;
   menu.save((err) => {
     if(err) {
       console.log(err);

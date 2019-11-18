@@ -16,20 +16,32 @@ const reservationTransaction = new Schema({
     required: true,
   },
 
-  MenuName: {
-    type: String,
-    required: false,
-    unique: true,
-  },
+  Menu: [{
+    MenuName: {
+      type: String,
+      required: true,
+      unique: true
+    },
+
+    Price: {
+      type: Number,
+      required: true
+    },
+
+    Personnel: {
+      type: Number,
+      required: true
+    }
+  }],
 
   ReservedDateTime: {
     type: Date,
-    required: true,
+    required: true
   },
 
-  Personnel: {
-    type: Number,
-    required: true
+  EndDateTime: {
+    type: Date,
+    required: false
   },
 
   Detail : {
