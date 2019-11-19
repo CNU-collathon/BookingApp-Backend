@@ -174,6 +174,21 @@ router.post("/menu", (req, res, next) => {
   menu.Price = req.body.Price;
 
   const fileObj = req.files[0];
+  if(fileObj === undefined) {
+    menu.save((err) => {    
+
+      if(err) {
+        console.log(err);
+        res.json({result: 0});
+        return;
+      }
+
+      res.json({
+        result: 1
+      });
+    })
+    return;
+  }
   const orgFileName = fileObj.originalname;
   const filesize = fileObj.size;
 
@@ -233,6 +248,17 @@ router.put("/menu/update/:workplaceID/:menuName", (req, res, next) => {
     console.log(output);
     if(!output.n) return res.status(404).json({error: "Menu not found"});
     res.json({ messgae: "Menu Updated"});
+  })
+})
+
+// delete menu
+router.delete("/menu/delete/:workplaceID/:menuName", (req, res) => {
+  Menu.deleteOne({ WorkPlaceID: req.params.workplaceID, Name: req.params.menuName }, (err) => {
+    if(err) res.status(500).json({error: "database failure"});
+
+    res.json({ message: "Menu Deleted"})
+
+    res.status(204).end();
   })
 })
 
