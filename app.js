@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const multer = require('multer');
 const db = require("./schemas")
 
 const appRouter = require('./routes/booking_app_routes');
@@ -18,6 +19,12 @@ app.set('etag', false);
 app.use(cors());
 db();
 
+app.use(multer({
+  dest: __dirname + "/upload/",
+  limits: {
+    fileSize: 1024*1000*16
+  }
+}).any());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

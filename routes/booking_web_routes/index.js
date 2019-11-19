@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
 const shortHash = require("short-hash");
 const SelfEmployed = require("../../schemas/self_employed");
 const WorkPlace = require("../../schemas/workplace");
@@ -171,18 +172,43 @@ router.post("/menu", (req, res, next) => {
   menu.Name = req.body.Name;
   menu.Desc = req.body.Desc;
   menu.Price = req.body.Price;
-  menu.save((err) => {
-    if(err) {
-      console.log(err);
-      res.json({result: 0});
-      return;
-    }
 
-    res.json({
-      result: 1
-    });
+  const fileObj = req.files[0];
+  const orgFileName = fileObj.originalname;
+  const filesize = fileObj.size;
+
+  if(filesize > 1024*1000*16) {
+    console.log("File Size Over 16MB");
+    return;
+  }
+
+  fs.open(fileObj.path, "r", (err, fd) => {
+    const buffer = new Buffer.alloc(filesize);
+    fs.read(fd, buffer, 0, buffer.length, null, (err, bytes, buffer) => {
+      menu.Image = {
+        File: buffer,
+        FileName: orgFileName,
+        Size: filesize
+      }
+
+      fs.unlinkSync(fileObj.path, () => {
+      });
+
+      menu.save((err) => {    
+
+        if(err) {
+          console.log(err);
+          res.json({result: 0});
+          return;
+        }
+
+        res.json({
+          result: 1
+        });
+      })
+    })
   })
-})
+});
 
 // get menu
 router.get("/menu/:workplaceID", (req, res, next) => {

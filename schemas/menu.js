@@ -23,6 +23,23 @@ const menuSchema = new Schema({
   Price: {
     type: Number,
     required: true
+  },
+
+  Image: {
+    File: {
+      type: Buffer,
+      required: false
+    },
+
+    FileName: {
+      type: String,
+      required: false
+    },
+
+    Size: {
+      type: Number,
+      required: false
+    }
   }
 
 }, {collection: "Menu"});
