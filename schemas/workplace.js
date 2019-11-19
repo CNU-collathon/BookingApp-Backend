@@ -33,6 +33,23 @@ const workPlaceSchema = new Schema({
   Category: {
     type: String,
     required: true
+  },
+
+  Image: {
+    File: {
+      type: Buffer,
+      required: false
+    },
+
+    FileName: {
+      type: String,
+      required: false
+    },
+
+    Size: {
+      type: Number,
+      required: false
+    }
   }
 
 }, { collection: "WorkPlace"});

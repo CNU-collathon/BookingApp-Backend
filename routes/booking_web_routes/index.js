@@ -105,16 +105,67 @@ router.post("/workplace", (req, res, next) => {
   workplace.WorkPlaceInfo = req.body.WorkPlaceInfo;
   workplace.Name = req.body.Name;
   workplace.Category = req.body.Category;
-  workplace.save((err) => {
-    if(err) {
-      console.log(err);
-      res.json({result: 0});
-      return;
-    }
 
-    res.json({
-      result: 1
-    });
+  const fileObj = req.files[0];
+  if(fileObj === undefined) {
+    workplace.save((err) => {    
+
+      if(err) {
+        console.log(err);
+        res.json({result: 0});
+        return;
+      }
+
+      res.json({
+        result: 1
+      });
+    })
+    return;
+  }
+  const orgFileName = fileObj.originalname;
+  const filesize = fileObj.size;
+
+  if(filesize > 1024*1000*16) {
+    console.log("File Size Over 16MB");
+    return;
+  }
+
+  fs.open(fileObj.path, "r", (err, fd) => {
+    const buffer = new Buffer.alloc(filesize);
+    fs.read(fd, buffer, 0, buffer.length, null, (err, bytes, buffer) => {
+      workplace.Image = {
+        File: buffer,
+        FileName: orgFileName,
+        Size: filesize
+      }
+
+      fs.unlinkSync(fileObj.path, () => {
+      });
+
+      workplace.save((err) => {    
+
+        if(err) {
+          console.log(err);
+          res.json({result: 0});
+          return;
+        }
+
+        res.json({
+          result: 1
+        });
+      })
+    })
+  })
+})
+
+// delete workplace
+router.delete("/workplace/delete/:workplaceID", (req, res) => {
+  WorkPlace.deleteOne({ WorkPlaceID: req.params.workplaceID }, (err) => {
+    if(err) res.status(500).json({error: "database failure"});
+
+    res.json({ message: "WorkPlace Deleted"})
+
+    res.status(204).end();
   })
 })
 
