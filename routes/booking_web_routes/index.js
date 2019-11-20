@@ -53,7 +53,7 @@ router.post("/signup", (req, res, next) => {
   selfemployed.ID = req.body.ID;
   selfemployed.PW = req.body.PW;
   selfemployed.Email = req.body.Email;
-  selfemployed.PhoneNumber = req.body.Email;
+  selfemployed.PhoneNumber = req.body.PhoneNumber;
   selfemployed.save((err) => {
     if(err) {
       console.log(err);
