@@ -51,12 +51,11 @@ router.get('/reservation/lookup/:reservationID', (req, res, next) => {
 router.post('/reservation', (req, res, next) => {
   let reservation = new Reservation();
   reservation.WorkPlaceID = req.body.WorkPlaceID;
-  reservation.MenuName = req.body.MenuName;
   reservation.ReservedDateTime = new Date(req.body.ReservedDateTime);
   reservation.EndDateTime = new Date(req.body.EndDateTime);
   reservation.Detail = req.body.Detail;
   reservation.Menu = req.body.Menus;
-  reservation.ID = shortHash(reservation.Detail.PhoneNum + req.body.DateTime);
+  reservation.ID = shortHash(reservation.Detail.PhoneNum + Date.now());
 
   reservation.save((err) => {
     if(err) {
