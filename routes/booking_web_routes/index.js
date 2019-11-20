@@ -146,7 +146,7 @@ router.post("/workplace", (req, res, next) => {
   }
 
   fs.open(fileObj.path, "r", (err, fd) => {
-    const buffer = new Buffer.alloc(filesize);
+    const buffer = new Buffer.alloc(filesize, 'base64');
     fs.read(fd, buffer, 0, buffer.length, null, (err, bytes, buffer) => {
       workplace.Image = {
         File: buffer,
@@ -199,7 +199,8 @@ router.get("/workplace/:workplaceID", (req, res, next) => {
         Address: workplace.Address,
         WorkPlaceInfo: workplace.WorkPlaceInfo,
         Name: workplace.Name,
-        Category: workplace.Category
+        Category: workplace.Category,
+        Image: workplace.Image
       });
     }
   })
