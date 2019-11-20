@@ -26,20 +26,7 @@ const menuSchema = new Schema({
   },
 
   Image: {
-    File: {
-      type: Buffer,
-      required: false
-    },
-
-    FileName: {
-      type: String,
-      required: false
-    },
-
-    Size: {
-      type: Number,
-      required: false
-    }
+    
   }
 
 }, {collection: "Menu"});
