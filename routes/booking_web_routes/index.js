@@ -121,8 +121,7 @@ router.post("/workplace", (req, res, next) => {
   workplace.Name = req.body.Name;
   workplace.Category = req.body.Category;
 
-  const fileObj = req.files[0];
-  if(fileObj === undefined) {
+  if(req.files === undefined) {
     workplace.save((err) => {    
 
       if(err) {
@@ -137,6 +136,8 @@ router.post("/workplace", (req, res, next) => {
     })
     return;
   }
+  
+  const fileObj = req.files[0];
   const orgFileName = fileObj.originalname;
   const filesize = fileObj.size;
 
