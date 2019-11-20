@@ -52,7 +52,9 @@ router.post('/reservation', (req, res, next) => {
   let reservation = new Reservation();
   reservation.WorkPlaceID = req.body.WorkPlaceID;
   reservation.ReservedDateTime = new Date(req.body.ReservedDateTime);
-  reservation.EndDateTime = new Date(req.body.EndDateTime);
+  if(req.body.EndDateTime !== "") {
+    reservation.EndDateTime = new Date(req.body.EndDateTime);
+  }
   reservation.Detail = req.body.Detail;
   reservation.Menu = req.body.Menus;
   reservation.ID = shortHash(reservation.Detail.PhoneNum + Date.now());
