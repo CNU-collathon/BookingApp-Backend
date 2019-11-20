@@ -95,6 +95,21 @@ router.get("/account/data/:id", (req, res, next) => {
   })
 })
 
+// workplace lookup by id
+router.get("/account/workplace/:id", (req, res) => {
+  WorkPlace.find({ SelfEmployedID: req.params.id }, (err, workplaces) => {
+    if(err) res.status(500).json({error: "database failure"});
+    if(workplaces.length === 0) {
+      res.json({
+        result: 0
+      })
+    }
+    else {
+      res.json(workplaces);
+    }
+  })
+})
+
 
 // workplace register
 router.post("/workplace", (req, res, next) => {
@@ -189,6 +204,7 @@ router.get("/workplace/:workplaceID", (req, res, next) => {
     }
   })
 })
+
 
 // workplace reservation find
 router.get("/workplace/reservation/:workplaceID", (req, res, next) => {
