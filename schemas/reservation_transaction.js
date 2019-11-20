@@ -19,8 +19,7 @@ const reservationTransaction = new Schema({
   Menu: [{
     MenuName: {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
 
     Price: {
