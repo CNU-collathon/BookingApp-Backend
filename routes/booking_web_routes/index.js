@@ -226,11 +226,49 @@ router.get("/workplace/reservation/:workplaceID", (req, res, next) => {
 
 // workplace modify
 router.put("/workplace/update/:workplaceID", (req, res, next) => {
-  WorkPlace.update({ WorkPlaceID: req.params.workplaceID }, { $set: req.body }, (err, output) => {
+  WorkPlace.findOne({ WorkPlaceID: req.params.workplaceID }, (err, workplace) => {
     if(err) res.status(500).json({error: "database failure"});
-    console.log(output);
-    if(!output.n) return res.status(404).json({error: "WorkPlace not found"});
-    res.json({ messgae: "WorkPlace Updated"});
+    if(!workplace) return res.status(404).json({error: "WorkPlace not found"});
+    
+    if(req.body.Address) workplace.Address = req.body.Address;
+    if(req.body.WorkPlaceInfo) workplace.WorkPlaceInfo = req.body.WorkPlaceInfo;
+    if(req.body.Name) workplace.Name = req.body.Name;
+    if(req.body.Category) workplace.Category = req.body.Category;
+    if(req.files[0] !== undefined) {
+      const fileObj = req.files[0];
+      const orgFileName = fileObj.originalname;
+      const filesize = fileObj.size;
+
+      if(filesize > 1024*1000*16) {
+        console.log("File Size Over 16MB");
+        return;
+      }
+        
+      fs.open(fileObj.path, "r", (err, fd) => {
+        const buffer = new Buffer.alloc(filesize);
+        fs.read(fd, buffer, 0, buffer.length, null, (err, bytes, buffer) => {
+          workplace.Image = {
+            File: buffer,
+            FileName: orgFileName,
+            Size: filesize
+          }
+    
+          fs.unlinkSync(fileObj.path, () => {
+          });
+    
+          workplace.save((err) => {
+            if(err) res.status(500).json({error: 'falied to update'});
+            res.json({message: 'WorkPlace updated'});
+          })
+        })
+      })  
+    }
+    else {
+      workplace.save((err) => {
+        if(err) res.status(500).json({error: 'falied to update'});
+        res.json({message: 'WorkPlace updated'});
+      })
+    }
   })
 })
 
@@ -312,11 +350,49 @@ router.get("/menu/:workplaceID", (req, res, next) => {
 
 // modify menu
 router.put("/menu/update/:workplaceID/:menuName", (req, res, next) => {
-  Menu.update({ WorkPlaceID: req.params.workplaceID, Name: req.params.menuName }, { $set: req.body }, (err, output) => {
+  Menu.findOne({ WorkPlaceID: req.params.workplaceID, Name: req.params.menuName }, (err, menu) => {
     if(err) res.status(500).json({error: "database failure"});
-    console.log(output);
-    if(!output.n) return res.status(404).json({error: "Menu not found"});
-    res.json({ messgae: "Menu Updated"});
+    if(!menu) return res.status(404).json({error: "WorkPlace not found"});
+    
+    if(req.body.WorkPlaceID) workplace.WorkPlaceID = req.body.WorkPlaceID;
+    if(req.body.Desc) workplace.Desc = req.body.Desc;
+    if(req.body.Name) workplace.Name = req.body.Name;
+    if(req.body.Price) workplace.Price = req.body.Price;
+    if(req.files[0] !== undefined) {
+      const fileObj = req.files[0];
+      const orgFileName = fileObj.originalname;
+      const filesize = fileObj.size;
+
+      if(filesize > 1024*1000*16) {
+        console.log("File Size Over 16MB");
+        return;
+      }
+        
+      fs.open(fileObj.path, "r", (err, fd) => {
+        const buffer = new Buffer.alloc(filesize);
+        fs.read(fd, buffer, 0, buffer.length, null, (err, bytes, buffer) => {
+          menu.Image = {
+            File: buffer,
+            FileName: orgFileName,
+            Size: filesize
+          }
+    
+          fs.unlinkSync(fileObj.path, () => {
+          });
+    
+          menu.save((err) => {
+            if(err) res.status(500).json({error: 'falied to update'});
+            res.json({message: 'Menu updated'});
+          })
+        })
+      })  
+    }
+    else {
+      menu.save((err) => {
+        if(err) res.status(500).json({error: 'falied to update'});
+        res.json({message: 'Menu updated'});
+      })
+    }
   })
 })
 
